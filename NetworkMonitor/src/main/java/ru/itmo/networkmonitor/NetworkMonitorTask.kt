@@ -18,7 +18,8 @@ import kotlinx.serialization.json.Json
 
 class NetworkMonitorTask(
     private val networkStatsManager: NetworkStatsManager,
-    private val networkActivityManager: ActivityManager
+    private val networkActivityManager: ActivityManager,
+    private val packageList: List<String>
 ) {
 
     fun start() {
@@ -141,12 +142,14 @@ class NetworkMonitorTask(
         Thread.getAllStackTraces().keys.map { it.contextClassLoader }
         val traces = Thread.getAllStackTraces().keys.map {
             Pair(it.stackTrace.firstOrNull { st ->
-                st.className.startsWith(
-                    "ru.ok"
-                )
+                packageList.any { pkg ->
+                    st.className.startsWith(
+                        pkg
+                    )
+                }
             }, it.stackTrace)
         }
-            .filter { it.first != null && it.first?.methodName != "getInfo"}
+            .filter { it.first != null && it.first?.methodName != "getInfo" }
             .map {
                 Trace(
                     it.first!!.className,
