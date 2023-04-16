@@ -55,6 +55,9 @@ class NetworkMonitorTask(
                     }
                 }
                 val info = getInfo()
+                if (info.isEmpty()) {
+                    continue
+                }
                 runBlocking {
                     client.post("http://10.0.2.2:8080/addEvent") {
                         contentType(ContentType.Application.Json)
@@ -143,7 +146,7 @@ class NetworkMonitorTask(
                 )
             }, it.stackTrace)
         }
-            .filter { it.first != null }
+            .filter { it.first != null && it.first?.methodName != "getInfo"}
             .map {
                 Trace(
                     it.first!!.className,
