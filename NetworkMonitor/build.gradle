@@ -26,7 +26,7 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '1.17'
     }
 }
 
@@ -42,5 +42,4 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.2.4")
     implementation("io.ktor:ktor-client-cio:2.2.4")
     implementation("com.google.code.gson:gson:2.10.1")
-    implementation("com.android.tools.build:gradle:8.0.0")
 }
